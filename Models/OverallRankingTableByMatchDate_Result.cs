@@ -10,15 +10,15 @@
 namespace HaloMondays.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AspNetUserClaim
+    public partial class OverallRankingTableByMatchDate_Result
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
+        public Nullable<long> Rank { get; set; }
+        public string Gamertag { get; set; }
+        public Nullable<int> TotalKills { get; set; }
+        public Nullable<int> TotalDeaths { get; set; }
+        public Nullable<decimal> KDRatio { get; set; }
+        public Nullable<int> TotalAssists { get; set; }
+        public Nullable<int> GamesPlayed { get; set; }
     }
 }

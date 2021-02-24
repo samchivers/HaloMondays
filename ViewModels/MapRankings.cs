@@ -11,5 +11,7 @@ namespace HaloMondays.ViewModels
         public string MapName;
 
         public IEnumerable<MapPerformanceSummary> MapPerformanceSummaries;
+
+        public IEnumerable<MapPerformanceSummaryByMatchDate_Result> MapPerformanceSummariesByMatchDate;
     }
 }

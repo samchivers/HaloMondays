@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 @using HaloMondays.Models
-@model HaloMondays.ViewModels.IndexViewModel
+@model HaloMondays.ViewModels.MatchDateViewModel
 
 <div class="jumbotron">
     <h1 style="text-align: center;">OH PLAAAYEEEDD DAVEEEE</h1>
@@ -16,6 +16,7 @@
             @Html.DropDownListFor(x => Model.SelectedMatchDate, new SelectList(Model.MatchDates, "Value", "Text", Model.SelectedMatchDate), "- Select Match Date -", htmlAttributes: new { @class = "form-control", @id = "MatchDates" })
         </div>
         <button type="submit" class="btn btn-default">Go</button>
+        <p style="padding-top:10px; margin-bottom:0px;"><a href="/">Back to all dates</a></p>
     </form>
 
 </div>
@@ -37,7 +38,7 @@
             </thead>
             <tbody>
                 @{ var rank = 1; }
-                @foreach(var entry in Model.OverallRankingTables)
+                @foreach(var entry in Model.OverallRankingTablesByMatchDate)
                 {
                     <tr>
                         <td>@rank</td>
@@ -65,7 +66,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var entry in Model.ResultsSummaries)
+                @foreach (var entry in Model.ResultsSummariesByMatchDate)
                 {
                     <tr>
                         <td>@entry.Gamertag</td>
@@ -79,7 +80,7 @@
     <div class="col-md-12">
         <h2>Performance Per Map</h2>
 
-        @foreach (var perf in Model.MapRankings)
+        @foreach (var perf in Model.MapRankingsByMatchDate)
         {
             var rankPerMap = 1;
             <table class="table table-striped table-bordered">
@@ -92,7 +93,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var entry in perf.MapPerformanceSummaries)
+                    @foreach (var entry in perf.MapPerformanceSummariesByMatchDate)
                     {
                         <tr>
                             <td>@rankPerMap</td>

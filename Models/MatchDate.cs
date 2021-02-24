@@ -12,12 +12,8 @@ namespace HaloMondays.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserLogin
+    public partial class MatchDate
     {
-        public string LoginProvider { get; set; }
-        public string ProviderKey { get; set; }
-        public string UserId { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
+        public System.DateTime MatchCompletedDate { get; set; }
     }
 }

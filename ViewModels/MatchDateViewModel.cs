@@ -6,13 +6,13 @@ using System.Web.Mvc;
 
 namespace HaloMondays.ViewModels
 {
-    public class IndexViewModel
+    public class MatchDateViewModel
     {
-        public IEnumerable<OverallRankingTable> OverallRankingTables;
+        public IEnumerable<OverallRankingTableByMatchDate_Result> OverallRankingTablesByMatchDate;
 
-        public IEnumerable<ResultsSummary> ResultsSummaries;
+        public IEnumerable<ResultsSummaryByMatchDate_Result> ResultsSummariesByMatchDate;
 
-        public IEnumerable<MapRankings> MapRankings;
+        public IEnumerable<MapRankings> MapRankingsByMatchDate;
 
         [Display(Name = "Match Dates")]
         public IEnumerable<SelectListItem> MatchDates;

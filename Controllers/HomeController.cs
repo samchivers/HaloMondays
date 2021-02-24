@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using HaloMondays.Logic;
 using System.Linq;
+using System;
 
 namespace HaloMondays.Controllers
 {
@@ -26,15 +27,50 @@ namespace HaloMondays.Controllers
         {
             var vM = new HaloMondays.ViewModels.IndexViewModel()
             {
-                OverallRankingTables = _dbContext.OverallRankingTables
-                                                    .OrderByDescending(r => r.KDRatio),
-                ResultsSummaries = _dbContext.ResultsSummaries
-                                                    .OrderByDescending(r => r.Result)
-                                                    .ThenByDescending(r => r.Count),
+                MatchDates = _data.PopulateMatchDates(),
+
                 LastUpdated = _dbContext.ApiCallHistories
                                                     .OrderByDescending(a => a.APICalled)
                                                     .First().APICalled,
+
+                OverallRankingTables = _dbContext.OverallRankingTables
+                                                    .OrderByDescending(r => r.KDRatio),
+
+                ResultsSummaries = _dbContext.ResultsSummaries
+                                                    .OrderByDescending(r => r.Result)
+                                                    .ThenByDescending(r => r.Count),
+
                 MapRankings = _data.FillMapRankings()
+            };
+
+            return View(vM);
+        }
+
+        // Data segmented by Match Date
+        public ActionResult MatchDate()
+        {
+            if(Request.Params["SelectedMatchDate"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var matchDate = Convert.ToDateTime(Request.Params["SelectedMatchDate"]);
+
+            var vM = new HaloMondays.ViewModels.MatchDateViewModel()
+            {
+                MatchDates = _data.PopulateMatchDates(),
+
+                SelectedMatchDate = matchDate,
+
+                LastUpdated = _dbContext.ApiCallHistories
+                                        .OrderByDescending(a => a.APICalled)
+                                        .First().APICalled,
+
+                OverallRankingTablesByMatchDate = _data.OverallRankingTablesByMatchDate(matchDate),
+
+                ResultsSummariesByMatchDate = _data.ResultsSummaryByMatchDate(matchDate),
+
+                MapRankingsByMatchDate = _data.FillMapRankings(matchDate)
             };
 
             return View(vM);

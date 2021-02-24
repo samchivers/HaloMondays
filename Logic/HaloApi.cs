@@ -55,8 +55,8 @@ namespace HaloMondays.Logic
 
             // If it hasn't been called in the last hour, call it
             // and then add a new record for the time it was called
-            if(lastApiCallBoundary >= lastApiCalls.APICalled)
-            {
+            //if(lastApiCallBoundary >= lastApiCalls.APICalled)
+           // {
                 await PopulateMapIds();
                 await PopulateMatches();
 
@@ -66,7 +66,7 @@ namespace HaloMondays.Logic
                 };
 
                 _dbContext.ApiCallHistories.Add(newLastApiCall);
-            }
+            //}
 
             return await _dbContext.SaveChangesAsync();
         }
@@ -113,7 +113,9 @@ namespace HaloMondays.Logic
 
                     var halo5MatchSet = await session.Query(halo5MatchHistory);
 
-                    foreach (var result in halo5MatchSet.Results)
+                    var results = halo5MatchSet.Results;
+
+                    foreach (var result in results)
                     {
                         // Don't bother adding if already there
                         if (!_dbContext.Matches.Any(m => m.Gamertag == gamertag.Gamertag1 && m.MatchId == result.Id.MatchId.ToString()))

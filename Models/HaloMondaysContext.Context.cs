@@ -12,6 +12,8 @@ namespace HaloMondays.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Entities : DbContext
     {
@@ -25,13 +27,9 @@ namespace HaloMondays.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Gamertag> Gamertags { get; set; }
         public virtual DbSet<Map> Maps { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<MatchPerformanceSummary> MatchPerformanceSummaries { get; set; }
         public virtual DbSet<OverallRankingTable> OverallRankingTables { get; set; }
@@ -39,5 +37,42 @@ namespace HaloMondays.Models
         public virtual DbSet<AssistsSummary> AssistsSummaries { get; set; }
         public virtual DbSet<MapPerformanceSummary> MapPerformanceSummaries { get; set; }
         public virtual DbSet<ApiCallHistory> ApiCallHistories { get; set; }
+        public virtual DbSet<MatchDate> MatchDates { get; set; }
+    
+        public virtual ObjectResult<MapPerformanceSummaryByMatchDate_Result> MapPerformanceSummaryByMatchDate(Nullable<System.DateTime> matchDate)
+        {
+            var matchDateParameter = matchDate.HasValue ?
+                new ObjectParameter("MatchDate", matchDate) :
+                new ObjectParameter("MatchDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MapPerformanceSummaryByMatchDate_Result>("MapPerformanceSummaryByMatchDate", matchDateParameter);
+        }
+    
+        public virtual ObjectResult<OverallRankingTableByMatchDate_Result> OverallRankingTableByMatchDate(Nullable<System.DateTime> matchDate)
+        {
+            var matchDateParameter = matchDate.HasValue ?
+                new ObjectParameter("MatchDate", matchDate) :
+                new ObjectParameter("MatchDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OverallRankingTableByMatchDate_Result>("OverallRankingTableByMatchDate", matchDateParameter);
+        }
+    
+        public virtual ObjectResult<ResultsSummaryByMatchDate_Result> ResultsSummaryByMatchDate(Nullable<System.DateTime> matchDate)
+        {
+            var matchDateParameter = matchDate.HasValue ?
+                new ObjectParameter("MatchDate", matchDate) :
+                new ObjectParameter("MatchDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResultsSummaryByMatchDate_Result>("ResultsSummaryByMatchDate", matchDateParameter);
+        }
+    
+        public virtual ObjectResult<string> MapDistinctByMatchDate(Nullable<System.DateTime> matchDate)
+        {
+            var matchDateParameter = matchDate.HasValue ?
+                new ObjectParameter("MatchDate", matchDate) :
+                new ObjectParameter("MatchDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("MapDistinctByMatchDate", matchDateParameter);
+        }
     }
 }
